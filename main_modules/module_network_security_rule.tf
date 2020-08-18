@@ -1,0 +1,28 @@
+module "network_security_rule1" {
+  source = "../azure_networksecurityrule"
+  networksecurityrulename = "${var.networksecurityrulenameoutbound}"
+priority = "${var.priority_outbound}"
+direction = "${var.direction_outbound}"
+access = "${var.access_outbound}"
+protocol = "${var.protocol_outbound}"
+source_port_range = "${var.source_port_range_outbound}"
+destination_port_range = "${var.destination_port_range_outbound}"
+source_address_prefix = "${var.source_address_prefix_outbound}"
+destination_address_prefix = "${var.destination_address_prefix_outbound}"
+resourcegroupname = "${module.resource_group.azure_resource_group_name}"
+networksecuritygroupname = "${module.network_security_group.networksecuritygroupname}"
+}
+module "network_security_rule2" {
+  source = "../azure_networksecurityrule"
+  networksecurityrulename = "${var.networksecurityrulenameinbound}"
+priority = "${var.priority_inbound}"
+direction = "${var.direction_inbound}"
+access = "${var.access_inbound}"
+protocol = "${var.protocol_inbound}"
+source_port_range = "${var.source_port_range_inbound}"
+destination_port_range = "${var.destination_port_range_inbound}"
+source_address_prefix = "${var.source_address_prefix_inbound}"
+destination_address_prefix = "${var.destination_address_prefix_inbound}"
+resourcegroupname = "${module.resource_group.azure_resource_group_name}"
+networksecuritygroupname = "${module.network_security_group.networksecuritygroupname}"
+}
