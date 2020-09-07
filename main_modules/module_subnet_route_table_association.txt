@@ -1,0 +1,36 @@
+# module "subnet_route_association" {
+#     source = "../azure_subnet_route_table_association"
+#     subnetid = "${module.virtual_subnet[count.index].subnet_vnet_id}"
+#     routetableid = "${module.UDRT[count.index].route_table_id}"
+#     count="${length(var.subnet_routetable_association)}"
+#   }
+variable "subnet_routetable_association"{
+    type        = list(string)
+    default = [
+        {subnetname="private1",routetablename="private_route_table1"},
+        {subnetname="private2",routetablename="private_route_table2"},
+        {subnetname="private1",routetablename="private_route_table2"},
+        {subnetname="private2",routetablename="private_route_table1"},
+        {subnetname="public1",routetablename="public_route_table1"},
+        {subnetname="public1",routetablename="private_route_table1"},
+        {subnetname="public1",routetablename="private_route_table2"},
+        
+    ]
+}
+resource "azurerm_subnet_route_table_association" "azrt" {
+   count="${length(var.subnet_routetable_association)}"
+  subnet_id      = data.azurerm_subnet.vnet[count.index].id
+  route_table_id = data.azurerm_route_table.route_table[count.index].id
+}
+  data "azurerm_subnet" "vnet" {
+      vnet_name = "${var.vnet_name}"
+      resource_group_name="${var.resource_group_name}"
+      name= "${var.subnet_routetable_association[count.index].subnetname}"
+      count="${length(var.subnet_routetable_association)}"
+  }
+  data "azurerm_route_table" "route_table" {
+      resource_group_name="${var.resource_group_name}"
+      name= "${var.subnet_routetable_association[count.index].routetablename}"
+      count="${length(var.subnet_routetable_association)}"
+  }
+  

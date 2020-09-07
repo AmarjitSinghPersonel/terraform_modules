@@ -7,7 +7,7 @@ module "virtual_subnet" {
     #vsubnet_address_prefixes = "${var.vsubnet_address_prefixes}"
     enforce_private_link_endpoint_network_policies = "${var.enforce_private_link_endpoint_network_policies}"
     enforce_private_link_service_network_policies  = "${var.enforce_private_link_service_network_policies}"
-    count = 3
-    routetableid = "${module.UDR_Table.route_table_id}"
+    count = "${length(var.subnetname)}"
+    #routetableid = "${module.UDR_Table.route_table_id}"
     securitygrouppid= "${module.network_security_group.networksecuritygroupid}"
   }

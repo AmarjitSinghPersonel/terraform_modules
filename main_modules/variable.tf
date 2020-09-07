@@ -11,9 +11,13 @@ variable "Tags"{
 variable "kev_vault_admin_name"{
     default="ansiblekeyvaultmar"
 }
+
 variable "kev_vault_rg_name"{
-    default="rg_demo_amar"
+    #default="rg_demo_amar"
+    #default=local.json_data.rg_name
 }
+
+#var.kev_vault_rg_name = local.json_data.rg_name
 variable "kev_vault_admin_secert_name"{
     default="vm-admin-pwd"
 }
@@ -174,19 +178,36 @@ variable "storage_container_access_type"{
 variable "vsubnet_address_prefix"{
     default="10.0.2.0/24"
 }
-variable "subnetname"{
- type        = list(string)
-    default=["firstsubnet","secondsubnet","thridsubnet"]
-}
-variable "vsubnet_address_prefixes"{
-  type        = list(string)
-    default=["10.0.1.0/24","10.0.2.0/24","10.0.3.0/24"]
-}
+
 variable "enforce_private_link_endpoint_network_policies"{
     default="false"
 }
 variable "enforce_private_link_service_network_policies"{
     default="false"
+}
+variable "subnetname"{
+ type        = list(string)
+    default=["private1","private2","public1"]
+}
+variable "udr_route_table_name"{    
+    type        = list(string)
+    default=["private_route_table1","private_route_table2","public_route_table1"]
+}
+variable "vsubnet_address_prefixes"{
+  type        = list(string)
+    default=["10.0.1.0/24","10.0.2.0/24","10.0.3.0/24"]
+}
+variable "subnet_routetable_association"{
+    
+    default = [
+        {subnetname="private1",routetablename="private_route_table1"},
+        {subnetname="private2",routetablename="private_route_table2"},
+        {subnetname="private1",routetablename="private_route_table2"},
+        {subnetname="private2",routetablename="private_route_table1"},
+        {subnetname="public1",routetablename="public_route_table1"},
+        {subnetname="public1",routetablename="private_route_table1"},
+        {subnetname="public1",routetablename="private_route_table2"}        
+    ]
 }
 variable "udr_custom_routes"{
     default=[
@@ -196,11 +217,12 @@ variable "udr_custom_routes"{
   ]
 }
 
-variable "udr_route_table_name"{
-    default="firstnewroutetable"
+
+variable "vm_name_linux"{
+    default="vmlinuxmodule"
 }
-variable "vm_name"{
-    default="vmdemolinuxmodule"
+variable "vm_name_windows"{
+    default="vmwinmodule"
 }
 variable "vm_size"{
     default="Standard_B2ms"

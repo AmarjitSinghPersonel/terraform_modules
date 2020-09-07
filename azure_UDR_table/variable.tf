@@ -13,3 +13,16 @@ variable "tags" {
   description = " A mapping of tags to assign to the resource"
   type = "map"
 }
+
+
+
+
+variable "udr_custom_routes" {
+  description = "List of custom routes to create of the form {RouteName = \"somename\", AddressPrefix = \"CIDR\", NextHopType = \"somename\", NextHopIpAddress = \"someIP\"}"
+  type = "list"
+}
+
+
+variable "route_count"{
+
+}

@@ -1,8 +1,8 @@
 module "virtual_machine_linux" {
   source = "../azure_virtual_machine_linux"
-  vm_name                = "${var.vm_name}-linux"  
+  vm_name                = "${var.vm_name_linux}"  
   vnet_location            = "${module.virtual_network.vnet_location}"
-  network_interface_ids = "${module.network_interface.network_interface_ids}"
+  network_interface_ids = "${module.network_interface_linux.network_interface_ids}"
   vm_size = "${var.vm_size}"
   availability_set_id = "${module.availability_set.availability_set_id}"
   storage_disk_caching = "${var.storage_disk_caching}"
